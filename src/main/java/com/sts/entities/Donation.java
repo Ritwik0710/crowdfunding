@@ -5,14 +5,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="Donation")
-public class Donator {
+public class Donation {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Donation")
+	@SequenceGenerator(name = "Donation", sequenceName = "mySeq",initialValue = 1)
 	private int id;
+	
 	private String name;
 	private String contact;
 	private String email;
@@ -27,6 +30,19 @@ public class Donator {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public Donation() {
+	}
+
+	public Donation(int id, String name, String contact, String email, String txn_id, String amount, NGO ngo) {
+		this.id = id;
+		this.name = name;
+		this.contact = contact;
+		this.email = email;
+		this.txn_id = txn_id;
+		this.amount = amount;
+		this.ngo = ngo;
 	}
 
 	public String getName() {
