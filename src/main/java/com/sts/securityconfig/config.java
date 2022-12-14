@@ -70,8 +70,8 @@ public class config extends WebSecurityConfigurerAdapter {
         		.disable()
         		.authorizeRequests()
             	.antMatchers("/ngo/**").hasRole("USER")
-            	.antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("crowdfund/**","/generate_token")
+            	.antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("crowdfund/**","/login")
                 .permitAll() 
                 .and()
                 .formLogin();

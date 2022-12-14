@@ -20,7 +20,7 @@ import com.sts.services.AdminServices;
 import com.sts.servicesimpl.AdminServicesImpl;
 
 @RestController
-@RequestMapping(path="/admin")
+//@RequestMapping(path="/admin")
 @CrossOrigin("*")
 public class AdminServicesController {
 	@Autowired
@@ -29,10 +29,17 @@ public class AdminServicesController {
 	@Autowired
 	NgoRepository ngodao;
 	
-	@PutMapping("/validate/{ngo_id}")
+	@PutMapping("/admin/validate/{ngo_id}")
 	public NGO validate(@PathVariable("ngo_id") Integer ngo_id) {
 //		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		return this.adminservices.validate(ngodao.getNgoById(ngo_id));
+	}
+	
+	@GetMapping("/admin")
+	public Status adminlogin(){
+	Status loginstatus = new Status();
+	loginstatus.setStatus("success");
+	return loginstatus;
 	}
 	
 	@PostMapping("/first")
@@ -40,7 +47,7 @@ public class AdminServicesController {
 		return this.adminservices.adminEntry();
 	}
 	
-	@GetMapping("/dashboard")
+	@GetMapping("/admin/dashboard")
 	public List<NGO> adminViewNgo(){
 		return this.adminservices.adminViewNgo();
 	}

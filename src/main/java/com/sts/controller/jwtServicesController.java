@@ -30,31 +30,36 @@ public class jwtServicesController {
 	private JwtUtils jwtUtils;
 	
 	///genenrate token
-	@PostMapping("/generate_token")
-	public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) throws Exception{
+	@PostMapping("/ngologin")
+	public String generateToken(@RequestBody JwtRequest jwtRequest) throws Exception{
+		String token;
 		try {
-			authenticate(jwtRequest.getUsername(),jwtRequest.getPassword());
-			
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(jwtRequest.getUsername(),jwtRequest.getPassword()));
+//			authenticate(jwtRequest.getUsername(),jwtRequest.getPassword());
+			token = "success";
+//			UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getUsername());
 		}catch(UsernameNotFoundException e){
-			e.printStackTrace();
-			throw new Exception("User not found");
+//			e.printStackTrace();
+			token = "failed";
+//			throw new Exception("User not found");
 		}
-		UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getUsername());
-		String token = this.jwtUtils.generateToken(userDetails);
-		return ResponseEntity.ok(new JwtResponse(token));
+		
+//		String token = this.jwtUtils.generateToken(userDetails);
+//		return ResponseEntity.ok(new JwtResponse(token));
+		return token;
 	}
 	
 	
 	
-	private void authenticate(String username ,String password) throws Exception {
-		 try {
-			 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-		 }catch(DisabledException e)
-		 {
-			 throw new Exception("USER DISABLED"+e.getMessage());
-		 }catch(BadCredentialsException e) {
-			 throw new Exception("Invalid Credentials" + e.getMessage());
-		 }
-	}
+//	private void authenticate(String username ,String password) throws Exception {
+//		 try {
+//			 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+//		 }catch(DisabledException e)
+//		 {
+////			 throw new Exception("USER DISABLED"+e.getMessage());
+//		 }catch(BadCredentialsException e) {
+////			 throw new Exception("Invalid Credentials" + e.getMessage());
+//		 }
+//	}
 
 }
